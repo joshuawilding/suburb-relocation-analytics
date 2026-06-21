@@ -1,0 +1,39 @@
+# Mac OS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+env/
+.venv/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# Security / Secrets (User Request)
+.env
+.env.*
+secrets.*
+credentials.*
+*.pem
+*.key
+*.cert
+config.json
+client_secret*.json
+
+# Data Files (Keep repos small)
+*.csv
+*.zip
+*.tar.gz
+*.sqlite3
+*.db
+data/
+raw_data/
+
+# Allowed processed data
+!tristate_walkability.csv
+!master_data.json
+!district_boundaries.geojson
