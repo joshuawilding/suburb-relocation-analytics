@@ -128,6 +128,12 @@ html_template = f"""
             <div id="town-count" class="metric-count">Loading districts...</div>
         </div>
 
+        <div style="margin-top: 4px; padding: 14px; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; box-shadow: 0 2px 4px rgba(37,99,235,0.05);">
+            <div style="font-weight: 800; font-size: 13px; color: #1e3a8a; margin-bottom: 6px;">🌟 Pragmatic Sweet Spots Mode</div>
+            <div style="font-size: 11px; color: #3b82f6; margin-bottom: 10px; line-height: 1.4;">Automatically applies your enriched housing profile: filters out condos (> $1.2M), academic pressure cookers, and extreme 2-bridge commute friction to Roslyn.</div>
+            <button id="btn-sweet-spot" style="width: 100%; padding: 10px; background: #2563eb; color: white; border: none; border-radius: 6px; font-weight: 700; font-size: 12px; cursor: pointer; transition: background 0.2s;">Activate Pragmatic Sweet Spots</button>
+        </div>
+
         <div>
             <h2>Core Filters</h2>
             <div class="control-group">
@@ -224,6 +230,25 @@ html_template = f"""
     const dispWalk = document.getElementById('val-walk');
     const dispCost = document.getElementById('val-cost');
 
+    const btnSweet = document.getElementById('btn-sweet-spot');
+    let sweetSpotActive = false;
+
+    btnSweet.addEventListener('click', () => {{
+        sweetSpotActive = !sweetSpotActive;
+        if (sweetSpotActive) {{
+            btnSweet.style.background = '#10b981';
+            btnSweet.innerText = '✅ Pragmatic Sweet Spots Active (Click to Reset)';
+            elCommute.value = 65;
+            elPrestige.value = 88;
+        }} else {{
+            btnSweet.style.background = '#2563eb';
+            btnSweet.innerText = 'Activate Pragmatic Sweet Spots';
+            elCommute.value = 90;
+            elPrestige.value = 85;
+        }}
+        renderMap();
+    }});
+
     // 4. Dynamically Parse all Numerical Columns from Data for Dropdowns
     const sampleProps = geojsonData.features[0].properties;
     const numericKeys = [];
@@ -240,7 +265,7 @@ html_template = f"""
         const opt = document.createElement('option');
         opt.value = key;
         opt.innerText = key.replace(/_/g, ' ');
-        if (key === 'True_Monthly_Carrying_Cost') opt.selected = true;
+        if (key === 'Balanced_Excellence_Score') opt.selected = true;
         elColor.appendChild(opt);
     }});
     
@@ -332,6 +357,12 @@ html_template = f"""
             if (d.Max_Walkability != null && d.Max_Walkability < minWalk) pass = false;
             if (d.True_Monthly_Carrying_Cost != null && d.True_Monthly_Carrying_Cost > maxCost) pass = false;
             
+            if (sweetSpotActive) {{
+                if (d.Academic_Culture_Type === 'Pressure Cooker Trap') pass = false;
+                if (d.SFH_Viability_Tier === 'Priced Out / Condo Forced (> $1.2M)') pass = false;
+                if (d.Roslyn_Friction_Tier === 'Tier 4: Two-Bridge Holiday Visit (> 60m, GW/Verrazzano)') pass = false;
+            }}
+
             if (advKey !== 'none' && d[advKey] != null) {{
                 if (advOp === '>=' && d[advKey] < advThreshold) pass = false;
                 if (advOp === '<=' && d[advKey] > advThreshold) pass = false;
@@ -411,8 +442,16 @@ html_template = f"""
                 const p = feature.properties;
                 let rowsHtml = '';
                 
-                // Group 1: The Core Metrics
-                const coreKeys = ['Predicted_Niche_Score', 'True_Monthly_Carrying_Cost', 'Manhattan_Commute_Used', 'Max_Walkability', 'SEDA_Growth_Score'];
+                // Group 1: Enriched Lifestyle & Core Metrics
+                rowsHtml += `<div class="popup-row" style="background:#f0fdf4; padding:6px; border-radius:4px;"><span class="popup-key" style="color:#166534;"><b>Balanced Excellence Score</b></span> <span class="popup-val" style="color:#166534;"><b>${{p.Balanced_Excellence_Score || 'N/A'}}</b></span></div>`;
+                rowsHtml += `<div class="popup-row"><span class="popup-key"><b>Academic Culture</b></span> <span class="popup-val">${{p.Academic_Culture_Type || 'N/A'}}</span></div>`;
+                rowsHtml += `<div class="popup-row"><span class="popup-key"><b>Retail Vibe Anchor</b></span> <span class="popup-val" style="font-size:11px; font-weight:700; color:#2563eb;">${{p.Retail_Vibe_Index || 'N/A'}}</span></div>`;
+                rowsHtml += `<div class="popup-row"><span class="popup-key"><b>Trail & Greenway Network</b></span> <span class="popup-val" style="font-size:11px; font-weight:700; color:#059669;">${{p.Trail_Network_Type || 'N/A'}}</span></div>`;
+                rowsHtml += `<div class="popup-row"><span class="popup-key"><b>SFH Budget Tier</b></span> <span class="popup-val">${{p.SFH_Viability_Tier || 'N/A'}}</span></div>`;
+                rowsHtml += `<div class="popup-row"><span class="popup-key"><b>Roslyn Friction Tier</b></span> <span class="popup-val" style="font-size:11px;">${{p.Roslyn_Friction_Tier || 'N/A'}}</span></div>`;
+                rowsHtml += '<hr style="border:none; border-top:1px solid #e2e8f0; margin:6px 0;">';
+
+                const coreKeys = ['Predicted_Niche_Score', 'True_Monthly_Carrying_Cost', 'Manhattan_Commute_Used', 'Max_Walkability', 'SEDA_Growth_Score', 'Current_3BR_Price_Mean'];
                 coreKeys.forEach(k => {{
                     rowsHtml += `<div class="popup-row"><span class="popup-key"><b>${{k.replace(/_/g, ' ')}}</b></span> <span class="popup-val">${{formatNumber(p[k], k)}}</span></div>`;
                 }});
@@ -420,8 +459,9 @@ html_template = f"""
                 rowsHtml += '<br><div style="font-weight:800; border-bottom:1px solid #e2e8f0; margin-bottom:4px;">All Raw Data</div>';
                 
                 // Group 2: Literally Everything Else
+                const excludeKeys = ['Balanced_Excellence_Score', 'Academic_Culture_Type', 'Retail_Vibe_Index', 'Trail_Network_Type', 'SFH_Viability_Tier', 'Roslyn_Friction_Tier', 'District_Name', 'County', 'State', 'Lat', 'Lon'];
                 Object.keys(p).sort().forEach(k => {{
-                    if (!coreKeys.includes(k) && k !== 'District_Name' && k !== 'County' && k !== 'State' && k !== 'Lat' && k !== 'Lon') {{
+                    if (!coreKeys.includes(k) && !excludeKeys.includes(k)) {{
                         rowsHtml += `<div class="popup-row"><span class="popup-key">${{k.replace(/_/g, ' ')}}</span> <span class="popup-val">${{formatNumber(p[k], k)}}</span></div>`;
                     }}
                 }});
@@ -477,7 +517,7 @@ html_template = f"""
 </html>
 """
 
-with open('../brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/Master_Choropleth_Dashboard.html', 'w') as f:
+with open('/Users/joshuawilding/.gemini/antigravity/brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/Master_Choropleth_Dashboard.html', 'w') as f:
     f.write(html_template)
 
 print("Master Choropleth Dashboard generated successfully!")
