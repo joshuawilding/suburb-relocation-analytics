@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 
 # Load Data
-df = pd.read_csv('../brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/tri_state_master_with_niche.csv')
+df = pd.read_csv('tri_state_master_with_niche.csv')
 
 # Select relevant numerical columns for our model
 features = [
@@ -81,7 +81,7 @@ for col_a, col_b, val in sorted(high_corr_pairs, key=lambda x: abs(x[2]), revers
     color = "Positive" if val > 0 else "Negative"
     out_md += f"| `{col_a}` | `{col_b}` | **{val:.2f}** ({strength} {color}) | Consider dropping one |\n"
 
-with open('../brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/feature_analysis.md', 'w') as f:
+with open('feature_analysis.md', 'w') as f:
     f.write(out_md)
 
 print("Feature analysis generated at feature_analysis.md")

@@ -7,7 +7,7 @@ import folium
 import pgeocode
 
 print("1. Loading & Pre-Processing Data...")
-df = pd.read_csv('../brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/tri_state_master_with_niche.csv', dtype={'sedaadmin': str})
+df = pd.read_csv('tri_state_master_with_niche.csv', dtype={'sedaadmin': str})
 
 # Generate Family Proximity
 df['Family_Proximity_Avg'] = df[['Drive_Mins_To_Old Tappan', 'Drive_Mins_To_Queens', 'Drive_Mins_To_Roslyn']].mean(axis=1)
@@ -99,7 +99,7 @@ df_clean['Is_Pareto_Optimal'] = is_pareto
 print(f"Found {is_pareto.sum()} Pareto-Optimal Local Maxima.")
 
 # Save master clustered dataset
-df_clean.to_csv('../brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/clustered_master_dataset.csv', index=False)
+df_clean.to_csv('clustered_master_dataset.csv', index=False)
 
 print("4. Generating Plotly 3D Visualization...")
 # Add hover string
@@ -118,7 +118,7 @@ fig = px.scatter_3d(
     title="6D Phase Space: Tri-State Suburbs",
     labels={'Manhattan_Commute_Used': 'Commute to Manhattan (Mins)', raw_cols['Carrying_Cost']: 'Monthly Cost ($)', raw_cols['Prestige']: 'Academic Prestige (Niche)'}
 )
-fig.write_html("../brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/6D_Scatter_Visualization.html")
+fig.write_html("6D_Scatter_Visualization.html")
 
 print("5. Generating Folium Geographic Overlay...")
 # Need Lat/Lon. Merge with ZIP crosswalk and geocode
@@ -159,6 +159,6 @@ for idx, row in df_map.iterrows():
         fill_opacity=0.7
     ).add_to(m)
 
-m.save("../brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/Interactive_Map_Overlay.html")
+m.save("Interactive_Map_Overlay.html")
 
 print("Pipeline Complete! Visualizations generated.")

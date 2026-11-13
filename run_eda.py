@@ -7,7 +7,7 @@ df_master = pd.read_csv('tri_state_master_with_niche.csv')
 # We need to map school districts to political/demographic data. 
 # But df_master already has demographics (perwht, perasn, baplusavgall, SES_Index).
 # We just need political leanings.
-df_tracts = pd.read_csv('/Users/joshuawilding/.gemini/antigravity/scratch/nyc_metro_voting_demographics/data/nyc_metro_tract_unified_metrics.csv', dtype={'TractFIPS': str})
+df_tracts = pd.read_csv('nyc_metro_tract_unified_metrics.csv', dtype={'TractFIPS': str})
 df_crosswalk = pd.read_excel('GRF21/grf21_lea_tract.xlsx', dtype={'LEAID': str, 'TRACT': str})
 
 print("Aggregating political data by School District...")
@@ -34,11 +34,16 @@ for b in benchmarks:
     match = df_master[df_master['District_Name'].str.contains(b, case=False, na=False)]
     if not match.empty:
         row = match.iloc[0]
+        def fmt_pct(val):
+            if pd.isna(val): return "N/A"
+            v = val if val <= 1.0 else val / 100.0
+            return f"{v * 100.0:.1f}%"
+
         print(f"\n{row['District_Name']} ({row['State']}):")
         print(f"  SEDA Growth Score: {row['SEDA_Growth_Score']:.2f}")
         print(f"  Niche Predicted Score: {row.get('Predicted_Niche_Score', 'N/A')}")
-        print(f"  Demographics: White: {row['perwht']*100:.1f}% | Asian: {row['perasn']*100:.1f}% | Hisp: {row['perhsp']*100:.1f}%")
-        print(f"  BA+ (Educated Peers): {row['baplusavgall']*100:.1f}%")
+        print(f"  Demographics: White: {fmt_pct(row.get('perwht'))} | Asian: {fmt_pct(row.get('perasn'))} | Hisp: {fmt_pct(row.get('perhsp'))}")
+        print(f"  BA+ (Educated Peers): {fmt_pct(row.get('baplusavgall'))}")
         print(f"  Median Income: ${row['Median_Income_Est']:,.0f}")
         print(f"  3BR Home Price: ${row['Current_3BR_Price_Mean']:,.0f}")
         print(f"  Democratic Vote Share: {row.get('Dem_Vote_Share_2020', np.nan):.1f}%")
@@ -70,4 +75,8 @@ gems = df_master[
 
 cols_show = ['District_Name', 'SEDA_Growth_Score', 'perasn', 'baplusavgall', 'Current_3BR_Price_Mean', 'Dem_Vote_Share_2020']
 for _, row in gems.iterrows():
-    print(f"{row['District_Name'][:30]:<30} | Grwth: {row['SEDA_Growth_Score']:.2f} | Asn%: {row['perasn']*100:4.1f}% | BA+%: {row['baplusavgall']*100:4.1f}% | Price: ${row['Current_3BR_Price_Mean']:,.0f} | Dem%: {row['Dem_Vote_Share_2020']:.1f}%")
+    v_asn = row.get('perasn', 0)
+    v_asn = v_asn * 100.0 if v_asn <= 1.0 else v_asn
+    v_ba = row.get('baplusavgall', 0)
+    v_ba = v_ba * 100.0 if v_ba <= 1.0 else v_ba
+    print(f"{row['District_Name'][:30]:<30} | Grwth: {row['SEDA_Growth_Score']:.2f} | Asn%: {v_asn:4.1f}% | BA+%: {v_ba:4.1f}% | Price: ${row['Current_3BR_Price_Mean']:,.0f} | Dem%: {row['Dem_Vote_Share_2020']:.1f}%")

@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 
 print("Loading Master Dataset and SEDA Covariates...")
-df_master = pd.read_csv('../brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/tri_state_master_with_niche.csv', dtype={'sedaadmin': str})
+df_master = pd.read_csv('tri_state_master_with_niche.csv', dtype={'sedaadmin': str})
 df_cov = pd.read_csv('seda_cov.csv', dtype={'sedaadmin': str})
 
 # Select specific deep demographics
@@ -31,7 +31,7 @@ if cols_to_drop:
 df_master = df_master.merge(df_demo.drop(columns=['lninc50avgall']), on='sedaadmin', how='left')
 
 # Save
-df_master.to_csv('../brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/tri_state_master_with_niche.csv', index=False)
+df_master.to_csv('tri_state_master_with_niche.csv', index=False)
 print("Phase 4: Advanced Demographics successfully merged!")
 
 # Print top 15 most educated districts

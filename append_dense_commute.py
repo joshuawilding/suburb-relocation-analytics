@@ -6,7 +6,7 @@ import time
 import math
 
 print("Loading datasets...")
-df_seda = pd.read_csv('../brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/tri_state_master_with_niche.csv', dtype={'sedaadmin': str})
+df_seda = pd.read_csv('tri_state_master_with_niche.csv', dtype={'sedaadmin': str})
 df_cross = pd.read_excel('GRF21/grf21_lea_zcta5ce20.xlsx', dtype={'LEAID': str, 'ZCTA5CE20': str})
 df_cross['ZCTA5CE20'] = df_cross['ZCTA5CE20'].str.zfill(5)
 
@@ -28,10 +28,10 @@ print("Geocoding Primary ZIP Codes...")
 nom = pgeocode.Nominatim('us')
 
 target_locations = {
-    'Manhattan': (40.7118, -73.9856),   # 275 South St
-    'Old Tappan': (41.0182, -73.9832),  # Longview Court
+    'Manhattan': (40.7118, -73.9856),   # Financial District
+    'Old Tappan': (41.0182, -73.9832),  # Old Tappan Hub
     'Queens': (40.7632, -73.7712),      # Estates Lane, Bayside
-    'Roslyn': (40.8009, -73.6521)       # Oakwood Circle
+    'Roslyn': (40.8009, -73.6521)       # Roslyn Hub
 }
 
 def get_drive_time(start_lat, start_lon, end_lat, end_lon):
@@ -80,5 +80,5 @@ for target_name, coords in target_locations.items():
 df_seda.drop(columns=['Dense_Lat', 'Dense_Lon', 'ZCTA5CE20'], inplace=True, errors='ignore')
 
 # Save
-df_seda.to_csv('../brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/tri_state_master_with_niche.csv', index=False)
+df_seda.to_csv('tri_state_master_with_niche.csv', index=False)
 print("Densest Block Commutes appended!")

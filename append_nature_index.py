@@ -34,7 +34,7 @@ park_agg.rename(columns={'Ac_Protected_Parks': 'Total_Park_Acres'}, inplace=True
 park_agg['Total_Park_Acres'] = park_agg['Total_Park_Acres'].round(1)
 
 print("Merging into Master Dataset...")
-df_seda = pd.read_csv('../brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/tri_state_master_with_niche.csv', dtype={'sedaadmin': str})
+df_seda = pd.read_csv('tri_state_master_with_niche.csv', dtype={'sedaadmin': str})
 
 # Idempotency
 if 'Total_Park_Acres' in df_seda.columns:
@@ -45,5 +45,5 @@ df_seda = df_seda.merge(park_agg, left_on='sedaadmin', right_on='LEAID', how='le
 # Identify massive state parks
 df_seda['Total_Park_Acres'] = df_seda['Total_Park_Acres'].fillna(0)
 
-df_seda.to_csv('../brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/tri_state_master_with_niche.csv', index=False)
+df_seda.to_csv('tri_state_master_with_niche.csv', index=False)
 print("Nature Index (Park Acres) Appended!")

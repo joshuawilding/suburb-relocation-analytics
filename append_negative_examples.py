@@ -38,7 +38,7 @@ negative_examples = [
     ("Connecticut", "Fairfield", "Stamford Public Schools", "B")
 ]
 
-csv_file = "../brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/commutable_districts.csv"
+csv_file = "commutable_districts.csv"
 
 # Read existing to avoid duplicates
 df_existing = pd.read_csv(csv_file)

@@ -74,7 +74,7 @@ for metric in ['Growth_3yr', 'Growth_10yr']:
     df_agg[f"{metric}_Mean"] = df_agg[f"{metric}_Mean"].round(1)
 
 print("\nMerging into Master SEDA Dataset...")
-df_seda = pd.read_csv('../brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/tri_state_master_with_niche.csv', dtype={'sedaadmin': str})
+df_seda = pd.read_csv('tri_state_master_with_niche.csv', dtype={'sedaadmin': str})
 
 # Drop old affordability columns if they exist (for idempotency)
 affordability_cols = [c for c in df_seda.columns if 'Price' in c or 'Growth' in c]
@@ -89,7 +89,7 @@ for col in affordability_cols:
 df_seda = df_seda.merge(df_agg, left_on='sedaadmin', right_on='LEAID', how='left').drop(columns=['LEAID'], errors='ignore')
 
 # Save updated dataset
-df_seda.to_csv('../brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/tri_state_master_with_niche.csv', index=False)
+df_seda.to_csv('tri_state_master_with_niche.csv', index=False)
 print(f"Appended Affordability data to {df_seda['Current_3BR_Price_Mean'].notna().sum()} districts!")
 
 # Update Notebook with Step 10

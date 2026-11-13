@@ -31,7 +31,7 @@ for fips in fips_codes:
             print(f"Skipping {fips}-{t}: {e}")
 
 # 2. Load Master Data
-df_master = pd.read_csv('../brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/tri_state_master_with_niche.csv')
+df_master = pd.read_csv('tri_state_master_with_niche.csv')
 df_master['sedaadmin'] = df_master['sedaadmin'].astype(str).str.zfill(7)
 master_dict = df_master.set_index('sedaadmin').to_dict('index')
 

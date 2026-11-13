@@ -7,7 +7,7 @@ with open(notebook_path, 'r') as f:
 
 markdown_cell = nbf.v4.new_markdown_cell("""## Step 8: Commutability & Family Closeness
 To map the "vibe" of commutability, we calculate the absolute straight-line distance from the geographic center of each school district to Times Square. 
-For the 4 specific family addresses, we utilize the OpenStreetMap (OSRM) routing engine to calculate the actual estimated driving time in minutes, accounting for bridges, tunnels, and road networks.""")
+For the key regional transit and employment hubs, we utilize the OpenStreetMap (OSRM) routing engine to calculate the actual estimated driving time in minutes, accounting for bridges, tunnels, and road networks.""")
 
 code_cell = nbf.v4.new_code_cell("""import pandas as pd
 import numpy as np
@@ -24,10 +24,10 @@ geolocator = Nominatim(user_agent="nyc_commute_estimator")
 
 targets = {
     'Times Square': "Times Square, Manhattan, NY",
-    'Old Tappan Family': "Longview Court, Old Tappan, NJ",
-    'Manhattan Family': "275 South St, Manhattan, NY",
-    'Queens Family': "Estates Lane, Bayside, NY",
-    'Roslyn Family': "Oakwood Circle, Roslyn, NY"
+    'Northern NJ Hub': "Old Tappan, NJ",
+    'Lower Manhattan Hub': "Lower Manhattan, NY",
+    'Queens Hub': "Bayside, Queens, NY",
+    'Long Island Hub': "Roslyn, NY"
 }
 
 target_coords = {}
@@ -75,10 +75,10 @@ def get_drive_time_osrm(lat1, lon1, lat2, lon2):
         pass
     return np.nan
 
-family_targets = ['Old Tappan Family', 'Manhattan Family', 'Queens Family', 'Roslyn Family']
+hub_targets = ['Northern NJ Hub', 'Lower Manhattan Hub', 'Queens Hub', 'Long Island Hub']
 
 # Create columns
-for ft in family_targets:
+for ft in hub_targets:
     df_seda[f'Drive_Mins_To_{ft.replace(" Family", "")}'] = np.nan
 
 session = requests.Session()
@@ -90,7 +90,7 @@ for idx, row in df_seda.iterrows():
         
     origin = (row['latcod'], row['loncod'])
     
-    for ft in family_targets:
+    for ft in hub_targets:
         dest = target_coords[ft]
         mins = get_drive_time_osrm(origin[0], origin[1], dest[0], dest[1])
         df_seda.at[idx, f'Drive_Mins_To_{ft.replace(" Family", "")}'] = mins
@@ -98,7 +98,7 @@ for idx, row in df_seda.iterrows():
     time.sleep(0.1) # Polite delay for OSRM public server
 
 # Round the minutes
-for ft in family_targets:
+for ft in hub_targets:
     col = f'Drive_Mins_To_{ft.replace(" Family", "")}'
     df_seda[col] = df_seda[col].round(0)
 

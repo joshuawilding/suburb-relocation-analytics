@@ -20,9 +20,9 @@ def clean_district_name(name):
     return name
 
 def merge_datasets():
-    seda_file = "../brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/tri_state_master_districts.csv"
-    niche_file = "../brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/commutable_districts.csv"
-    output_file = "../brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/tri_state_master_with_niche.csv"
+    seda_file = "tri_state_master_districts.csv"
+    niche_file = "commutable_districts.csv"
+    output_file = "tri_state_master_with_niche.csv"
 
     print("Loading datasets...")
     df_seda = pd.read_csv(seda_file)

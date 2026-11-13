@@ -336,7 +336,7 @@ html_template = f"""
 </html>
 """
 
-with open('../brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/Master_Interactive_Dashboard.html', 'w') as f:
+with open('Master_Interactive_Dashboard.html', 'w') as f:
     f.write(html_template)
 
 print("Master Interactive Dashboard generated successfully!")

@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from sklearn.metrics import r2_score, mean_absolute_error
 
-df = pd.read_csv('../brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/tri_state_master_with_niche.csv')
+df = pd.read_csv('tri_state_master_with_niche.csv')
 
 # Mapping dict (same as Phase 1)
 grade_map = {

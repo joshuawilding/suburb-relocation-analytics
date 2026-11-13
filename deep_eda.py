@@ -10,7 +10,7 @@ print("Loading data...")
 df_master = pd.read_csv('tri_state_master_with_niche.csv')
 
 # Load and merge political data
-df_tracts = pd.read_csv('/Users/joshuawilding/.gemini/antigravity/scratch/nyc_metro_voting_demographics/data/nyc_metro_tract_unified_metrics.csv', dtype={'TractFIPS': str})
+df_tracts = pd.read_csv('nyc_metro_tract_unified_metrics.csv', dtype={'TractFIPS': str})
 df_crosswalk = pd.read_excel('GRF21/grf21_lea_tract.xlsx', dtype={'LEAID': str, 'TRACT': str})
 df_tracts['TRACT'] = df_tracts['TractFIPS']
 df_merged = df_crosswalk.merge(df_tracts, on='TRACT', how='inner')

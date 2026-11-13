@@ -3,7 +3,7 @@ import numpy as np
 from haversine import haversine, Unit
 
 print("Loading Master Dataset...")
-df_seda = pd.read_csv('../brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/tri_state_master_with_niche.csv')
+df_seda = pd.read_csv('tri_state_master_with_niche.csv')
 
 # Major Express Train Hubs
 # These hubs guarantee frequent, direct trains into Manhattan (Penn Station or Grand Central)
@@ -24,5 +24,5 @@ def get_nearest_hub_distance(lat, lon):
 
 df_seda['Miles_To_Express_Train_Hub'] = df_seda.apply(lambda row: get_nearest_hub_distance(row['Latitude'], row['Longitude']), axis=1)
 
-df_seda.to_csv('../brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/tri_state_master_with_niche.csv', index=False)
+df_seda.to_csv('tri_state_master_with_niche.csv', index=False)
 print("Express Train Access Appended!")

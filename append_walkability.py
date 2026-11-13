@@ -20,10 +20,10 @@ walk_agg['Max_Walkability'] = walk_agg['Max_Walkability'].round(1)
 walk_agg['Avg_Walkability'] = walk_agg['Avg_Walkability'].round(1)
 
 # Merge with main dataset
-df_seda = pd.read_csv('../brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/tri_state_master_with_niche.csv', dtype={'sedaadmin': str})
+df_seda = pd.read_csv('tri_state_master_with_niche.csv', dtype={'sedaadmin': str})
 df_seda = df_seda.merge(walk_agg, left_on='sedaadmin', right_on='LEAID', how='left').drop(columns=['LEAID'])
 
-df_seda.to_csv('../brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/tri_state_master_with_niche.csv', index=False)
+df_seda.to_csv('tri_state_master_with_niche.csv', index=False)
 print("Walkability metrics appended to CSV!")
 
 # Now inject the Step 9 cell into the Jupyter Notebook

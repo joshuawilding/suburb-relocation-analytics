@@ -1,7 +1,7 @@
 import pandas as pd
 import pgeocode
 
-df = pd.read_csv('../brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/tri_state_master_with_niche.csv')
+df = pd.read_csv('tri_state_master_with_niche.csv')
 df_cross = pd.read_excel('GRF21/grf21_lea_zcta5ce20.xlsx', dtype={'LEAID': str, 'ZCTA5CE20': str})
 df_cross['ZCTA5CE20'] = df_cross['ZCTA5CE20'].str.zfill(5)
 df_zip = df_cross.drop_duplicates('LEAID')

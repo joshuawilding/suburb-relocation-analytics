@@ -37,3 +37,4 @@ raw_data/
 !tristate_walkability.csv
 !master_data.json
 !district_boundaries.geojson
+!nyc_metro_tract_unified_metrics.csv

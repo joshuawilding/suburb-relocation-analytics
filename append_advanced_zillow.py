@@ -45,7 +45,7 @@ df_agg['Overall_Home_Price_Mean'] = df_agg['Overall_Home_Price_Mean'].round(0)
 df_agg['Active_Inventory_Mean'] = df_agg['Active_Inventory_Mean'].round(1)
 
 print("Merging into Master SEDA Dataset...")
-df_seda = pd.read_csv('../brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/tri_state_master_with_niche.csv', dtype={'sedaadmin': str})
+df_seda = pd.read_csv('tri_state_master_with_niche.csv', dtype={'sedaadmin': str})
 
 cols_to_drop = ['Overall_Home_Price_Mean', 'Active_Inventory_Mean']
 df_seda.drop(columns=[c for c in cols_to_drop if c in df_seda.columns], inplace=True)
@@ -57,5 +57,5 @@ df_seda = df_seda.merge(df_agg, left_on='sedaadmin', right_on='LEAID', how='left
 if 'Current_3BR_Price_Mean' in df_seda.columns:
     df_seda['3BR_vs_Overall_Ratio'] = (df_seda['Current_3BR_Price_Mean'] / df_seda['Overall_Home_Price_Mean']).round(2)
 
-df_seda.to_csv('../brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/tri_state_master_with_niche.csv', index=False)
+df_seda.to_csv('tri_state_master_with_niche.csv', index=False)
 print("Advanced Zillow Enhancements Saved!")

@@ -5,7 +5,7 @@ from sklearn.cluster import KMeans
 import plotly.express as px
 
 print("Loading Master Dataset...")
-df = pd.read_csv('../brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/tri_state_master_with_niche.csv')
+df = pd.read_csv('tri_state_master_with_niche.csv')
 
 # 1. Impute Missing Data to keep all 514 districts
 print("Imputing missing values to preserve all 514 districts...")
@@ -78,5 +78,5 @@ fig = px.scatter_matrix(
 # Update layout for better readability
 fig.update_traces(diagonal_visible=False, marker=dict(size=4, opacity=0.7))
 
-fig.write_html("../brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/2D_Scatter_Matrix.html")
+fig.write_html("2D_Scatter_Matrix.html")
 print("Scatter Matrix generated!")

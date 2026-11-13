@@ -517,7 +517,7 @@ html_template = f"""
 </html>
 """
 
-with open('/Users/joshuawilding/.gemini/antigravity/brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/Master_Choropleth_Dashboard.html', 'w') as f:
+with open('Master_Choropleth_Dashboard.html', 'w') as f:
     f.write(html_template)
 
 print("Master Choropleth Dashboard generated successfully!")

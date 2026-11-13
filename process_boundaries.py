@@ -42,7 +42,7 @@ master_gdf = pd.concat(gdfs, ignore_index=True)
 
 # 3. Load our 514-district master dataset to filter down the polygons
 print("Filtering to our 514 districts...")
-df_master = pd.read_csv('../brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/tri_state_master_with_niche.csv')
+df_master = pd.read_csv('tri_state_master_with_niche.csv')
 df_master['sedaadmin'] = df_master['sedaadmin'].astype(str).str.zfill(7)
 
 # Ensure GEOID matches the 7-digit sedaadmin

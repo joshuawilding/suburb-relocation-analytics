@@ -5,7 +5,7 @@ from sklearn.cluster import KMeans
 import plotly.express as px
 
 print("Loading Master Dataset...")
-df = pd.read_csv('../brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/tri_state_master_with_niche.csv')
+df = pd.read_csv('tri_state_master_with_niche.csv')
 
 # 1. Impute Missing Data
 df['Family_Proximity_Avg'] = df[['Drive_Mins_To_Old Tappan', 'Drive_Mins_To_Queens', 'Drive_Mins_To_Roslyn']].mean(axis=1)
@@ -73,7 +73,7 @@ fig = px.scatter_matrix(
 )
 
 fig.update_traces(diagonal_visible=False, marker=dict(size=4, opacity=0.7))
-fig.write_html("../brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/2D_Scatter_Matrix_Filtered.html")
+fig.write_html("2D_Scatter_Matrix_Filtered.html")
 print("Filtered Scatter Matrix generated!")
 
 # 5.5 Generate 3D Scatter Plot
@@ -94,7 +94,7 @@ fig_3d = px.scatter_3d(
     }
 )
 fig_3d.update_traces(marker=dict(size=5, opacity=0.8))
-fig_3d.write_html("../brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/3D_Scatter_Visualization_Filtered.html")
+fig_3d.write_html("3D_Scatter_Visualization_Filtered.html")
 print("3D Scatter Plot generated!")
 
 # 6. Generate Folium Geographic Overlay
@@ -142,7 +142,7 @@ for idx, row in df_map.iterrows():
         fill_opacity=0.7
     ).add_to(m)
 
-m.save("../brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/Interactive_Map_Overlay.html")
+m.save("Interactive_Map_Overlay.html")
 print("Folium Map updated!")
 
 # 7. Generate Geographic Heatmap (Cost = Color, Prestige = Size)
@@ -185,5 +185,5 @@ for idx, row in df_map.iterrows():
         fill_opacity=0.8
     ).add_to(m2)
 
-m2.save("../brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/Geographic_Cost_Heatmap.html")
+m2.save("Geographic_Cost_Heatmap.html")
 print("Geographic Heatmap generated!")

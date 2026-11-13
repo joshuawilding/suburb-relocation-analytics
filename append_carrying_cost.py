@@ -1,7 +1,7 @@
 import pandas as pd
 
 print("Loading Master Dataset...")
-df_seda = pd.read_csv('../brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/tri_state_master_with_niche.csv')
+df_seda = pd.read_csv('tri_state_master_with_niche.csv')
 
 # Average Effective Property Tax Rates by County (Estimates)
 tax_rates = {
@@ -60,5 +60,5 @@ def calculate_monthly_payment(price, tax_rate):
 
 df_seda['True_Monthly_Carrying_Cost'] = df_seda.apply(lambda row: calculate_monthly_payment(row['Current_3BR_Price_Mean'], row['Estimated_Tax_Rate']), axis=1)
 
-df_seda.to_csv('../brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/tri_state_master_with_niche.csv', index=False)
+df_seda.to_csv('tri_state_master_with_niche.csv', index=False)
 print("Carrying Costs Appended!")

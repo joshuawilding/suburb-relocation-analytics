@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import io
 
-df = pd.read_csv('../brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/tri_state_master_with_niche.csv')
+df = pd.read_csv('tri_state_master_with_niche.csv')
 
 total_rows = len(df)
 
@@ -52,7 +52,7 @@ for col in cat_cols:
          markdown_output += f"| *(... {len(df[col].unique()) - 15} more unique values)* | - | - |\n"
     markdown_output += "\n"
 
-with open('../brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/data_profile.md', 'w') as f:
+with open('data_profile.md', 'w') as f:
     f.write(markdown_output)
 
 print("Data profile generated at data_profile.md")

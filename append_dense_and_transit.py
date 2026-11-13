@@ -6,7 +6,7 @@ import time
 from haversine import haversine, Unit
 
 print("Loading Master Dataset...")
-df_seda = pd.read_csv('../brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/tri_state_master_with_niche.csv', dtype={'sedaadmin': str})
+df_seda = pd.read_csv('tri_state_master_with_niche.csv', dtype={'sedaadmin': str})
 df_cross = pd.read_excel('GRF21/grf21_lea_zcta5ce20.xlsx', dtype={'LEAID': str, 'ZCTA5CE20': str})
 df_cross['ZCTA5CE20'] = df_cross['ZCTA5CE20'].str.zfill(5)
 
@@ -68,5 +68,5 @@ def get_hub_dist(lat, lon):
 
 df_seda['Miles_To_Express_Train'] = df_seda.apply(lambda r: get_hub_dist(r['Dense_Lat'], r['Dense_Lon']), axis=1)
 
-df_seda.to_csv('../brain/1aa0d3c1-7a3f-4417-9041-18ac4fb2f2a3/tri_state_master_with_niche.csv', index=False)
+df_seda.to_csv('tri_state_master_with_niche.csv', index=False)
 print("Dense Commutes & Transit Access Appended!")
