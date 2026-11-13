@@ -8,7 +8,7 @@ An end-to-end Decision Science framework and interactive screener evaluating hou
 
 ## Motivation & Problem Framing
 
-Relocating from New York City to the surrounding suburban communities (Northern NJ, Westchester, Long Island, and Fairfield County) represents a complex, multi-objective optimization problem with stark trade-offs:
+Relocating within the New York City area to the surrounding suburban communities (Northern NJ, Westchester, Long Island, and Fairfield County) represents a complex, multi-objective optimization problem with stark trade-offs:
 - **Commute Friction:** Train vs driving transit duration to Midtown Manhattan during peak rush hours.
 - **Housing Affordability:** Multi-tier single-family price trajectories and carrying costs.
 - **Educational Performance:** Longitudinal student growth versus absolute socio-demographic proficiency.
